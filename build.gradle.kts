@@ -13,6 +13,7 @@ repositories {
 }
 
 dependencies {
+
     // Spring Boot Starters
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-data-rest")
@@ -28,6 +29,9 @@ dependencies {
 
     // Testing
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+
+    // JWT (Para generar y validar tokens JWT)
+    implementation("io.jsonwebtoken:jjwt:0.12.6")
 }
 
 tasks.test {

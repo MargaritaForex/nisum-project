@@ -1,13 +1,21 @@
 package org.example.domain.service;
 
+import lombok.RequiredArgsConstructor;
+import org.example.infrastructure.config.security.JwtUtil;
 import org.example.infrastructure.input.http.dto.request.UserDTO;
 import org.example.infrastructure.input.http.dto.response.UserResponseDto;
+import org.example.infrastructure.output.db.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
+@RequiredArgsConstructor
 @Service
 public class UserService {
+
+    private final UserRepository userRepository;
+    private final JwtUtil jwtUtil;
+
     public UserResponseDto registerUser(UserDTO userDto) {
         // Validaciones específicas de negocio
         if (isEmailAlreadyRegistered(userDto.getEmail())) {
@@ -15,13 +23,14 @@ public class UserService {
         }
 
         userDto.setId(UUID.randomUUID());
+        String token = jwtUtil.generateToken(userDto.getId()); // Genera el token
+        userDto.setToken(token);
+
         return mapToResponseDto(userDto);
     }
 
     private boolean isEmailAlreadyRegistered(String email) {
-        // Lógica para verificar si el email ya está registrado
-        // Esto es solo un ejemplo, deberías implementar la lógica real
-        return false;
+        return userRepository.findByEmail(email).isPresent();
     }
 
     private UserResponseDto mapToResponseDto(UserDTO userDto) {

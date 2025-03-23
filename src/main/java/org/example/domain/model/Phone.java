@@ -1,11 +1,9 @@
-package org.example.infrastructure.input.http.dto.request;
+package org.example.domain.model;
 
-import lombok.Builder;
 import lombok.Data;
 
-@Builder
 @Data
-public class PhoneDTO {
+public class Phone {
     private String number;
     private String citycode;
     private String contrycode;
