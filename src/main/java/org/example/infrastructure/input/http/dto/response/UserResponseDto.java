@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Data;
 import org.example.infrastructure.input.http.dto.request.PhoneDTO;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -16,7 +17,7 @@ public class UserResponseDto {
     private List<PhoneDTO> phones;
     private String token;
     private boolean isActive;
-    private String created;
-    private String modified;
-    private String lastLogin;
+    private LocalDateTime created;
+    private LocalDateTime modified;
+    private LocalDateTime lastLogin;
 }
