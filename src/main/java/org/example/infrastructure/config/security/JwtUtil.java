@@ -14,7 +14,7 @@ import java.util.UUID;
 @Component
 public class JwtUtil implements JwtServicePort {
 
-    private static final String SECRET_KEY = "bG9uZy1hbmQtcmFuZG9tLXNlY3JldC1rZXktZm9yLWp3dA=="; // Clave en Base64
+    private static final String SECRET_KEY = "bG9uZy1hbmQtcmFuZG9tLXNlY3JldC1rZXktZm9yLWp3dA==";
 
     private SecretKey getSigningKey() {
         return Keys.hmacShaKeyFor(Decoders.BASE64.decode(SECRET_KEY));
@@ -25,14 +25,14 @@ public class JwtUtil implements JwtServicePort {
         return Jwts.builder()
                 .subject(userId.toString())
                 .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + 86400000)) // 1 día
-                .signWith(getSigningKey()) // Firma con clave segura
+                .expiration(new Date(System.currentTimeMillis() + 86400000))
+                .signWith(getSigningKey())
                 .compact();
     }
 
     public Claims validateToken(String token) {
-        return Jwts.parser() // ← En vez de parserBuilder()
-                .verifyWith(getSigningKey()) // Para la versión 0.12.6
+        return Jwts.parser()
+                .verifyWith(getSigningKey())
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();

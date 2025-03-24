@@ -25,7 +25,7 @@ public class UserMapper {
                 .id(dto.getId())
                 .name(dto.getName())
                 .email(dto.getEmail())
-                .password(dto.getPassword()) // Asegúrate de encriptar la contraseña antes de guardarla
+                .password(dto.getPassword())
                 .phones(getPhones(dto))
                 .created(dto.getCreated())
                 .modified(dto.getModified())
