@@ -65,11 +65,44 @@ public interface UserApi {
     @GetMapping("/{email}")
     ResponseEntity<UserResponseDto> findByEmail(@PathVariable String email);
 
-    @Operation(summary = "Update user")
+    @Operation(
+            summary = "Actualizar usuario",
+            description = "Actualiza un usuario existente identificado por su correo electrónico.",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Usuario actualizado correctamente",
+                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserResponseDto.class))
+                    ),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "Datos de solicitud inválidos",
+                            content = @Content(mediaType = "application/json", schema = @Schema(example = "{\"mensaje\": \"Datos de solicitud inválidos\"}"))
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Usuario no encontrado",
+                            content = @Content(mediaType = "application/json", schema = @Schema(example = "{\"mensaje\": \"Usuario no encontrado\"}"))
+                    )
+            }
+    )
     @PutMapping("/{email}")
     ResponseEntity<UserResponseDto> updateUser(@PathVariable String email, @RequestBody UserDTO userDto);
 
-    @Operation(summary = "Deactivate user")
+    @Operation(
+            summary = "Desactivar usuario por su email",
+            description = "Desactivar usuario por su email",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Usuario encontrado",
+                            content = @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = UserResponseDto.class))),
+                    @ApiResponse(responseCode = "400", description = "Solicitud incorrecta",
+                            content = @Content(mediaType = "application/json",
+                                    examples = @ExampleObject(value =
+                                            "{\"mensaje\": \"User not found\"},"
+                                    )))
+            }
+    )
     @DeleteMapping("/{email}")
     ResponseEntity<Map<String, String>> deactivateUser(@PathVariable String email);
 }
