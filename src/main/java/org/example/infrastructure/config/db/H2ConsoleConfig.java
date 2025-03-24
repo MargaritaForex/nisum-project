@@ -1,4 +1,4 @@
-package org.example.infrastructure.config.security;
+package org.example.infrastructure.config.db;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;

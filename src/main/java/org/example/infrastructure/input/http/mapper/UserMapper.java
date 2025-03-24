@@ -71,4 +71,12 @@ public class UserMapper {
         return phones -> phones.stream().map(phoneMapper::toDto).toList();
     }
 
+    public List<User> toDomainList(List<UserDTO> dtoList) {
+        return dtoList.stream().map(this::toDomain).collect(Collectors.toList());
+    }
+
+    public List<UserResponseDto> toDtoList(List<User> userList) {
+        return userList.stream().map(this::toDto).collect(Collectors.toList());
+    }
+
 }

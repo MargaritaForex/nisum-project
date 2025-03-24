@@ -1,5 +1,8 @@
 package org.example.infrastructure.input.http;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.example.domain.service.UserService;
 import org.example.infrastructure.input.http.dto.request.LoginDTO;
@@ -12,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -23,10 +27,21 @@ public class UserController {
     private final UserMapper userMapper;
     private final LoginMapper loginMapper;
 
+    @Operation(summary = "Registrar un usuario", description = "Registra un usuario con email y contraseña.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Usuario registrado exitosamente"),
+            @ApiResponse(responseCode = "400", description = "Solicitud incorrecta"),
+            @ApiResponse(responseCode = "409", description = "Email ya registrado")
+    })
     @PostMapping
     public ResponseEntity<UserResponseDto> registerUser(@Validated @RequestBody UserDTO userDto) {
         UserResponseDto newUser = userMapper.toDto(userService.registerUser(userMapper.toDomain(userDto)));
         return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<UserResponseDto>> getAllUsers() {
+        return ResponseEntity.ok(userMapper.toDtoList(userService.getAllUsers()));
     }
 
     @GetMapping("/{email}")
@@ -50,10 +65,9 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginDTO loginDto) {
+    public ResponseEntity<UserResponseDto> login(@RequestBody LoginDTO loginDto) {
         UserResponseDto userResponse = userMapper.toDto(userService.login(loginMapper.toDomain(loginDto)));
         return ResponseEntity.ok(userResponse);
     }
-
 
 }

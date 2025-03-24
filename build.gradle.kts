@@ -40,6 +40,10 @@ dependencies {
     //Pruebas unitarias
     testImplementation("org.mockito:mockito-core")
 
+    //Swagger
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2")
+
+
 }
 
 tasks.test {

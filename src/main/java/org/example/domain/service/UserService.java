@@ -9,6 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -50,7 +51,12 @@ public class UserService {
         User existingUser = findByEmail(email);
 
         existingUser.setName(updatedUser.getName());
+        existingUser.setPhones(updatedUser.getPhones());
         existingUser.setModified(LocalDateTime.now());
+
+        if (updatedUser.getPassword() != null && !updatedUser.getPassword().isEmpty()) {
+            existingUser.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
+        }
 
         return userPersistencePort.save(existingUser);
     }
@@ -74,5 +80,9 @@ public class UserService {
         user.setToken(jwtServicePort.generateToken(user.getId()));
 
         return userPersistencePort.save(user);
+    }
+
+    public List<User> getAllUsers() {
+        return userPersistencePort.findAll();
     }
 }

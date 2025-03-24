@@ -7,12 +7,13 @@ import org.example.infrastructure.output.db.UserRepository;
 import org.example.infrastructure.output.entities.UserEntity;
 import org.example.infrastructure.output.mapper.UserEntityMapper;
 import org.springframework.stereotype.Component;
-
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
-public class UserPersistenceAdapter  implements UserPersistencePort {
+public class UserPersistenceAdapter implements UserPersistencePort {
 
     private final UserRepository userRepository;
     private final UserEntityMapper userEntityMapper;
@@ -27,5 +28,12 @@ public class UserPersistenceAdapter  implements UserPersistencePort {
     public Optional<User> findByEmail(String email) {
         return userRepository.findByEmail(email)
                 .map(userEntityMapper::toDomain);
+    }
+
+    @Override
+    public List<User> findAll() {
+        return userRepository.findAll().stream()
+                .map(userEntityMapper::toDomain)
+                .collect(Collectors.toList());
     }
 }
