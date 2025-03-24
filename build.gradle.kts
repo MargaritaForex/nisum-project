@@ -37,6 +37,9 @@ dependencies {
     //Security
     implementation("org.springframework.boot:spring-boot-starter-security")
 
+    //Pruebas unitarias
+    testImplementation("org.mockito:mockito-core")
+
 }
 
 tasks.test {
