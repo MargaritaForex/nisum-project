@@ -17,7 +17,7 @@ public class LoginDTO {
 
     @Email(message = "Email should be valid")
     @NotBlank(message = "Email is required")
-    @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$", message = "Email no tiene un formato válido")
+    @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$", message = "El formato del email es inválido")
     private String email;
 
     @NotBlank(message = "Password is required")

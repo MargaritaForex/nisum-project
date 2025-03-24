@@ -17,15 +17,12 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
-        Map<String, String> errors = new HashMap<>();
-        ex.getBindingResult().getAllErrors().forEach(error -> {
-            String fieldName = ((FieldError) error).getField();
-            String errorMessage = error.getDefaultMessage();
-            errors.put(fieldName, errorMessage);
-        });
+        String mensajeError = ex.getBindingResult().getAllErrors().stream()
+                .map(error -> ((FieldError) error).getDefaultMessage())
+                .reduce((msg1, msg2) -> msg1 + ", " + msg2)
+                .orElse("Error de validación");
 
-
-        return ResponseEntity.badRequest().body(Map.of(MENSAJE, errors.toString()));
+        return ResponseEntity.badRequest().body(Map.of(MENSAJE, mensajeError));
     }
 
     @ExceptionHandler(IllegalArgumentException.class)

@@ -1,9 +1,7 @@
 package org.example.infrastructure.input.http.dto.request;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,7 +23,7 @@ public class UserDTO {
 
     @Email(message = "Email should be valid")
     @NotBlank(message = "Email is required")
-    @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$", message = "Email no tiene un formato válido")
+    @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$", message = "El formato del email es inválido")
     private String email;
 
     @NotBlank(message = "Password is required")
@@ -33,6 +31,8 @@ public class UserDTO {
     @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$", message = "La contraseña debe tener mínimo 8 caracteres, una letra y un número")
     private String password;
 
+    @NotEmpty(message = "La lista de teléfonos no puede estar vacía")
+    @Valid
     private List<PhoneDTO> phones;
 
     private LocalDateTime created;

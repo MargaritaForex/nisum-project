@@ -1,8 +1,5 @@
 package org.example.infrastructure.input.http;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.example.domain.service.UserService;
 import org.example.infrastructure.input.http.dto.request.LoginDTO;
@@ -21,18 +18,12 @@ import java.util.Map;
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor
-public class UserController {
+public class UserController implements UserApi{
 
     private final UserService userService;
     private final UserMapper userMapper;
     private final LoginMapper loginMapper;
 
-    @Operation(summary = "Registrar un usuario", description = "Registra un usuario con email y contraseña.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Usuario registrado exitosamente"),
-            @ApiResponse(responseCode = "400", description = "Solicitud incorrecta"),
-            @ApiResponse(responseCode = "409", description = "Email ya registrado")
-    })
     @PostMapping
     public ResponseEntity<UserResponseDto> registerUser(@Validated @RequestBody UserDTO userDto) {
         UserResponseDto newUser = userMapper.toDto(userService.registerUser(userMapper.toDomain(userDto)));
@@ -59,7 +50,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{email}")
-    public ResponseEntity<?> deactivateUser(@PathVariable String email) {
+    public ResponseEntity<Map<String, String>> deactivateUser(@PathVariable String email) {
         userService.deactivateUser(email);
         return ResponseEntity.ok(Map.of("mensaje", "Usuario desactivado exitosamente"));
     }

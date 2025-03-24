@@ -23,7 +23,7 @@ public class UserService {
 
     public User registerUser(User user) {
         if (isEmailAlreadyRegistered(user.getEmail())) {
-            throw new IllegalArgumentException("Email is already registered");
+            throw new IllegalArgumentException("El correo electrónico ya está registrado");
         }
 
         user.setId(UUID.randomUUID());

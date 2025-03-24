@@ -30,7 +30,7 @@ class UserServiceTest {
     public static final String PEDRO = "Pedro";
     public static final String MAIL1 = "pedro@correo.com";
     public static final String PASSWORD1 = "password456";
-    public static final String EMAIL_IS_ALREADY_REGISTERED = "Email is already registered";
+    public static final String EMAIL_IS_ALREADY_REGISTERED = "El correo electrónico ya está registrado";
     @Mock
     private UserPersistencePort userRepository;
     @Mock
